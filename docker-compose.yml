@@ -1,13 +1,19 @@
 services:
   api:
     build: .
+    container_name: "invoice-api"
+    hostname: "invoice-api"
     ports:
       - "3000:3000"
     volumes:
       - .:/app
-#  database:
-#    image: postgres:15
-#    environment:
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD:
-#        some-long-secure-password POSTGRES_DB: myapp_development
+    env_file:
+      - .env
+  database:
+    image: postgres:15
+    container_name: "invoice-db"
+    hostname: "invoice-db"
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
