@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+#  database:
+#    image: postgres:15
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD:
+#        some-long-secure-password POSTGRES_DB: myapp_development
