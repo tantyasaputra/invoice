@@ -1,2 +1,5 @@
 Style/Documentation:
   Enabled: false
+AllCops:
+  Exclude:
+    - 'lib/swagger/**/*'

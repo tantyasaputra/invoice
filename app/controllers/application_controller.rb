@@ -6,12 +6,16 @@ class ApplicationController < ActionController::API
     token = JWT.decode(access_token, ENV.fetch('SECRET_KEY'), true, algorithm: 'HS256')
     user_id = token[0]['user_id']
     @user = User.find(user_id)
-    raise HandledError::AuthenticationError, "invalid user" unless @user.present?
+    raise HandledError::AuthenticationError, 'invalid user' unless @user.present?
   end
 
   def authorization_header
-    raise HandledError::AuthenticationError, "missing authorization header" unless request.headers["Authorization"].present?
-    request.headers["Authorization"]
+    unless request.headers['Authorization'].present?
+      raise HandledError::AuthenticationError,
+            'missing authorization header'
+    end
+
+    request.headers['Authorization']
   end
 
   def access_token
