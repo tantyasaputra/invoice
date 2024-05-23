@@ -3,7 +3,7 @@
 class AddItem < ActiveRecord::Migration[7.1]
   def up
     create_table :items do |t|
-      t.string :name
+      t.string :name, null: false
       t.text :description
       t.decimal :unit_price, precision: 8, scale: 2
 
