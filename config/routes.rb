@@ -13,5 +13,4 @@ Rails.application.routes.draw do
   resources :items, only: %i[index create destroy show]
 
   post 'login' => 'authentications#login'
-
 end
