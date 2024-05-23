@@ -16,6 +16,11 @@ class SwaggersController < ActionController::Base
         key :name, 'MIT'
       end
     end
+    security_definition :api_key do
+      key :type, :apiKey
+      key :name, :api_token
+      key :in, :header
+    end
 
     # key :host, 'petstore.swagger.wordnik.com'
     # key :basePath, '/api'
