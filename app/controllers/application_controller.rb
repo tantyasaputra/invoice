@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  include Helpers::ErrorHandler
+  include ExceptionHandler
   def authenticate_request!
     token = JWT.decode(access_token, ENV.fetch('SECRET_KEY'), true, algorithm: 'HS256')
     user_id = token[0]['user_id']
