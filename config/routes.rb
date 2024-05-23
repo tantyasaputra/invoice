@@ -11,4 +11,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :swaggers, only: [:index]
   resources :items, only: %i[index create destroy show]
+
+  post 'login' => 'authentications#login'
+
 end
