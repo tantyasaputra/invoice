@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,26 +12,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_22_183645) do
+ActiveRecord::Schema[7.1].define(version: 20_240_522_183_645) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "items", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description"
-    t.decimal "unit_price", precision: 8, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'items', force: :cascade do |t|
+    t.string 'name', null: false
+    t.text 'description'
+    t.decimal 'unit_price', precision: 8, scale: 2
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.string "email", null: false
-    t.string "password_hash", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
+  create_table 'users', force: :cascade do |t|
+    t.string 'first_name', null: false
+    t.string 'last_name', null: false
+    t.string 'email', null: false
+    t.string 'password_hash', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['email'], name: 'index_users_on_email', unique: true
   end
-
 end
