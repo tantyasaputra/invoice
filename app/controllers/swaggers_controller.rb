@@ -18,7 +18,7 @@ class SwaggersController < ActionController::Base
     end
     security_definition :api_key do
       key :type, :apiKey
-      key :name, :api_token
+      key :name, :Authorization
       key :in, :header
     end
 
@@ -31,8 +31,8 @@ class SwaggersController < ActionController::Base
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
     AuthenticationsController,
-    # ItemsController,
-    # Item,
+    ItemsController,
+    Item,
     # AuthenticationController,
     self
   ].freeze
