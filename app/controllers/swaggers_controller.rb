@@ -30,10 +30,11 @@ class SwaggersController < ActionController::Base
 
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
-    ItemsController,
-    Item,
+    AuthenticationsController,
+    # ItemsController,
+    # Item,
     # AuthenticationController,
-    self,
+    self
   ].freeze
 
   def index
