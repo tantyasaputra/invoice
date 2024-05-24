@@ -26,15 +26,45 @@ module Swagger
             key :description, 'Invoice object that needs to be sent in the params'
             key :required, true
             schema do
-              key :'$ref', :ItemInput
+              key :required, [:invoice_number, :due_date, :invoice_items_attributes]
+
+              property :invoice_number do
+                key :type, :string
+              end
+              property :due_date do
+                key :type, :string
+                key :format, :date
+              end
+              property :invoice_items_attributes do
+                key :type, :array
+                items do
+                  key :'$ref', :InvoiceItem
+                end
+              end
             end
           end
           response 200 do
-            key :description, 'item response'
+            key :description, 'Invoice object response'
             schema do
-              key :type, :array
-              items do
-                key :'$ref', :Item
+              key :required, [:id, :aasm_state, :invoice_number, :due_date, :total_amount ]
+
+              property :id do
+                key :type, :integer
+                key :format, :int64
+              end
+              property :aasm_state do
+                key :type, :string
+              end
+              property :invoice_number do
+                key :type, :string
+              end
+              property :due_date do
+                key :type, :string
+                key :format, :date
+              end
+              property :total_amount do
+                key :type, :number
+                key :format, :double
               end
             end
           end
@@ -44,6 +74,20 @@ module Swagger
               key :'$ref', :ErrorSchema
             end
           end
+        end
+      end
+      # Define the InvoiceItem schema
+      swagger_schema :InvoiceItem do
+        key :required, [:item_id, :quantity]
+
+        property :item_id do
+          key :type, :integer
+          key :format, :int64
+        end
+
+        property :quantity do
+          key :type, :integer
+          key :format, :int32
         end
       end
     end
