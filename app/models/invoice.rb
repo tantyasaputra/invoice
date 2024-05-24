@@ -15,13 +15,25 @@ class Invoice < ApplicationRecord
 
   aasm do
     state :created, initial: true
+    state :published
     state :paid
     state :expired
+
+    event :publish do
+      transitions from: :created, to: :published do
+        after do |url|
+          set_published_url(url)
+        end
+      end
+    end
   end
 
   private
 
   def calculate_total_amount
     self.total_amount = invoice_items.sum { |item| item.quantity * item.item.unit_price }
+  end
+  def set_published_url(url)
+    self.update(published_url: url)
   end
 end
