@@ -3,3 +3,4 @@ Style/Documentation:
 AllCops:
   Exclude:
     - 'lib/swagger/**/*'
+    - 'db/schema.rb'

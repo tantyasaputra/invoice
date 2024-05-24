@@ -29,12 +29,7 @@ module Swagger
               end
             end
           end
-          response :default do
-            key :description, 'unexpected error'
-            schema do
-              key :'$ref', { error: 'asu' }
-            end
-          end
+          extend Swagger::ErrorResponse
         end
         operation :post do
           key :description, "Creates a new items. Item's name must be uniq"
@@ -62,12 +57,7 @@ module Swagger
               key :'$ref', :Item
             end
           end
-          response :default do
-            key :description, 'unexpected error'
-            schema do
-              key :'$ref', :ErrorModel
-            end
-          end
+          extend Swagger::ErrorResponse
         end
       end
       swagger_schema :Item do

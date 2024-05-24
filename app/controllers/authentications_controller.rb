@@ -3,7 +3,6 @@
 class AuthenticationsController < ApplicationController
   include Swagger::AuthenticationApi
 
-
   def login
     user = User.find_by(email: login_params[:email])
     if user&.authenticate(login_params[:password])
