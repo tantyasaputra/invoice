@@ -7,6 +7,7 @@ module Swagger
     included do
       include Swagger::Blocks
 
+      # Define the /invoices endpoint
       swagger_path '/invoices' do
         operation :post do
           key :summary, 'Create an Invoice'
@@ -76,6 +77,38 @@ module Swagger
           end
         end
       end
+
+      # Define the /invoices/{id}/publish endpoint
+      swagger_path '/invoices/{id}/publish' do
+        operation :post do
+          key :description, 'Publish an invoice'
+          key :operationId, 'publishInvoice'
+          key :tags, ['Invoice']
+          security do
+            key :api_key, []
+          end
+          parameter name: :id do
+            key :in, :path
+            key :description, 'ID of the invoice to publish'
+            key :required, true
+            key :type, :integer
+          end
+
+          response 200 do
+            key :description, 'Invoice published successfully'
+            schema do
+              key :'$ref', :Invoice
+            end
+          end
+          response :default do
+            key :description, 'error'
+            schema do
+              key :'$ref', :ErrorSchema
+            end
+          end
+        end
+      end
+
       # Define the InvoiceItem schema
       swagger_schema :InvoiceItem do
         key :required, [:item_id, :quantity]
@@ -88,6 +121,33 @@ module Swagger
         property :quantity do
           key :type, :integer
           key :format, :int32
+        end
+      end
+
+      # Define the InvoiceItem schema
+      swagger_schema :Invoice do
+        key :required, [:id, :invoice_number, :aasm_state, :due_date, :total_amount, :published_url]
+
+        property :id do
+          key :type, :integer
+          key :format, :int64
+        end
+        property :invoice_number do
+          key :type, :string
+        end
+        property :invoice_number do
+          key :type, :string
+        end
+        property :published_url do
+          key :type, :string
+        end
+        property :due_date do
+          key :type, :string
+          key :format, :date
+        end
+        property :total_amount do
+          key :type, :number
+          key :format, :double
         end
       end
     end

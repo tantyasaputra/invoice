@@ -3,7 +3,7 @@
 class InvoicesController < ApplicationController
   include Swagger::InvoiceApi
   before_action :authenticate_request!
-  before_action :set_item, only: %i[show update destroy publish]
+  before_action :set_invoice, only: %i[publish]
 
   # POST /invoices
   def create
@@ -16,7 +16,7 @@ class InvoicesController < ApplicationController
   end
 
   def publish
-    response = Xendit::Requests::CreateInvoice.new(@invoice)
+    response = Xendit::Requests::CreateInvoice.new(@invoice).fire!
     if response.success? && @invoice.may_publish?
       invoice_url = response.parsed_body[:invoice_url]
       invoice.publish!(invoice_url)
