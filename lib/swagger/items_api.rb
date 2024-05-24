@@ -6,6 +6,7 @@ module Swagger
 
     included do
       include Swagger::Blocks
+
       swagger_path '/items' do
         operation :get do
           key :summary, 'Fetches all Item'
