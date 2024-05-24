@@ -22,7 +22,7 @@ class Invoice < ApplicationRecord
     event :publish do
       transitions from: :created, to: :published do
         after do |url|
-          set_published_url(url)
+          update_published_url(url)
         end
       end
     end
@@ -33,7 +33,8 @@ class Invoice < ApplicationRecord
   def calculate_total_amount
     self.total_amount = invoice_items.sum { |item| item.quantity * item.item.unit_price }
   end
-  def set_published_url(url)
-    self.update(published_url: url)
+
+  def update_published_url(url)
+    update(published_url: url)
   end
 end
