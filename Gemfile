@@ -14,6 +14,7 @@ gem 'pg', '~> 1.1'
 gem 'aasm'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', require: false
+gem 'httparty'
 gem 'jwt'
 gem 'puma', '>= 5.0'
 gem 'rack-cors'

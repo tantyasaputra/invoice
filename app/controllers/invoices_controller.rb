@@ -18,6 +18,7 @@ class InvoicesController < ApplicationController
   private
 
   def invoice_params
-    params.require(:invoice).permit(:user_id, :invoice_number, :due_date, invoice_items_attributes: %i[item_id quantity])
+    params.require(:invoice).permit(:user_id, :invoice_number, :due_date,
+                                    invoice_items_attributes: %i[item_id quantity])
   end
 end
