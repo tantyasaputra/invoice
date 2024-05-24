@@ -29,7 +29,7 @@ module Swagger
               end
             end
           end
-          extend Swagger::ErrorResponse
+          # extend ErrorResponse
         end
         operation :post do
           key :description, "Creates a new items. Item's name must be uniq"
@@ -57,7 +57,12 @@ module Swagger
               key :'$ref', :Item
             end
           end
-          extend Swagger::ErrorResponse
+          response :default do
+            key :description, 'error'
+            schema do
+              key :'$ref', :ErrorSchema
+            end
+          end
         end
       end
       swagger_schema :Item do

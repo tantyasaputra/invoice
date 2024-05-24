@@ -28,12 +28,18 @@ class SwaggersController < ActionController::Base
     key :produces, ['application/json']
   end
 
+  swagger_schema :ErrorSchema do
+    key :required, %i[error]
+    property :error do
+      key :type, :string
+    end
+  end
+
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
     AuthenticationsController,
     ItemsController,
-    Item,
-    # AuthenticationController,
+    InvoicesController,
     self
   ].freeze
 
