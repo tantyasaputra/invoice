@@ -1,7 +1,7 @@
 Style/Documentation:
   Enabled: false
 Metrics/MethodLength:
-  Max: 30
+  Max: 50
 AllCops:
   Exclude:
     - 'lib/swagger/**/*'

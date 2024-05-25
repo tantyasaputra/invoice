@@ -6,6 +6,6 @@ FactoryBot.define do
     last_name { 'Doe' }
     email { 'john.doe@example.com' }
     password { 'password' }
-    password_confirmation { "password" }
+    password_confirmation { 'password' }
   end
 end
