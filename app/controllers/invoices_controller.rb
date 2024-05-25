@@ -3,7 +3,7 @@
 class InvoicesController < ApplicationController
   include Swagger::InvoiceApi
   # before_action :authenticate_request!
-  before_action :set_invoice, only: %i[publish show]
+  before_action :set_invoice, only: %i[publish show update]
 
   # POST /invoices
   def create
@@ -49,14 +49,27 @@ class InvoicesController < ApplicationController
 
   # GET /invoices/:id
   def show
-    render json: @invoice, status: :ok
+    render json: @invoice, status: :ok, serializer: InvoiceDetailSerializer
+  end
+
+  # GET /invoices/:id
+  def update
+    unless @invoice.created?
+      raise HandledError::InvalidParamsError,
+            "invalid state, cannot update invoice with state #{@invoice.aasm_state}!"
+    end
+    if @invoice.update(invoice_params)
+      render json: @invoice, status: :ok
+    else
+      render json: @invoice.errors, status: :unprocessable_entity
+    end
   end
 
   private
 
   def invoice_params
     params.require(:invoice).permit(:user_id, :invoice_number, :due_date,
-                                    invoice_items_attributes: %i[item_id quantity])
+                                    invoice_items_attributes: %i[id item_id quantity _destroy])
   end
 
   def set_invoice
