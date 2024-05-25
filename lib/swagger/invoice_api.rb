@@ -76,6 +76,37 @@ module Swagger
             end
           end
         end
+        operation :get do
+          key :summary, 'Retrieve all invoices'
+          key :description, 'Returns a list of invoices. Optionally, filter by status.'
+          key :operationId, 'getInvoices'
+          key :tags, ['Invoice']
+          security do
+            key :api_key, []
+          end
+
+          parameter name: :state do
+            key :in, :query
+            key :description, 'Filter by invoice status'
+            key :required, false
+            key :type, :string
+          end
+
+          response 200 do
+            key :description, 'Invoice object response'
+            schema type: :array do
+              items do
+                key :'$ref', :Invoice
+              end
+            end
+          end
+          response :default do
+            key :description, 'error'
+            schema do
+              key :'$ref', :ErrorSchema
+            end
+          end
+        end
       end
 
       # Define the /invoices/{id}/publish endpoint
@@ -135,7 +166,7 @@ module Swagger
         property :invoice_number do
           key :type, :string
         end
-        property :invoice_number do
+        property :aasm_state do
           key :type, :string
         end
         property :published_url do

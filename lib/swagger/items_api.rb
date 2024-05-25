@@ -29,8 +29,8 @@ module Swagger
               end
             end
           end
-          # extend ErrorResponse
         end
+
         operation :post do
           key :description, "Creates a new items. Item's name must be uniq"
           key :produces, [
