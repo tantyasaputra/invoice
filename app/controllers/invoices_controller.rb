@@ -19,10 +19,10 @@ class InvoicesController < ApplicationController
     response = Xendit::Requests::CreateInvoice.new(@invoice).fire!
     if response.success? && @invoice.may_publish?
       invoice_url = response.parsed_body[:invoice_url]
-      invoice.publish!(invoice_url)
+      @invoice.publish!(invoice_url)
       render json: @invoice, status: :ok
     else
-      render json: { error: 'unable to publish invoice!' }, status: :unprocessable_entity
+      render json: { error: 'unable to publish invoice!', error_details: response.parsed_body }, status: :unprocessable_entity
     end
   end
 
