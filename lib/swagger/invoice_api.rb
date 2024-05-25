@@ -162,10 +162,8 @@ module Swagger
 
           response 200 do
             key :description, 'Invoice details'
-            content 'application/json' do
-              schema do
-                key :'$ref', :Invoice
-              end
+            schema do
+              key :'$ref', :Invoice
             end
           end
         end

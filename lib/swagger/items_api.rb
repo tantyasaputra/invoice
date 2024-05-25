@@ -48,11 +48,11 @@ module Swagger
             key :description, 'Item object that needs to be sent in the params'
             key :required, true
             schema do
-              key :'$ref', :ItemInput
+              key :'$ref', :Item
             end
           end
           response 200 do
-            key :description, 'pet response'
+            key :description, 'Item response'
             schema do
               key :'$ref', :Item
             end
@@ -80,28 +80,6 @@ module Swagger
         property :unit_price do
           key :type, :number
           key :format, :double
-        end
-      end
-      swagger_schema :ItemInput do
-        allOf do
-          schema do
-            key :'$ref', :Item
-          end
-          schema do
-            key :required, %i[name unit_price]
-            property :id do
-              key :type, :integer
-              key :format, :int64
-            end
-            property :name do
-              key :type, :string
-              key :format, :int64
-            end
-            property :unit_price do
-              key :type, :number
-              key :format, :double
-            end
-          end
         end
       end
     end

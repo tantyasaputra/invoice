@@ -22,45 +22,31 @@ module Swagger
             key :description, 'Authentication object that needs to be sent in the params'
             key :required, true
             schema do
-              key :'$ref', :AuthInput
+              key :required, %i[email password]
+              property :email do
+                key :type, :string
+              end
+              property :password do
+                key :type, :string
+              end
             end
           end
           response 200 do
             key :description, 'pet response'
             schema do
-              key :'$ref', :AuthResponse
+              key :required, %i[email token]
+              property :email do
+                key :email, :string
+              end
+              property :token do
+                key :type, :string
+              end
             end
           end
           response :default do
             key :description, 'unexpected error'
             schema do
-              key :'$ref', :ErrorModel
-            end
-          end
-        end
-      end
-      swagger_schema :AuthInput do
-        allOf do
-          schema do
-            key :required, %i[email password]
-            property :email do
-              key :type, :string
-            end
-            property :password do
-              key :type, :string
-            end
-          end
-        end
-      end
-      swagger_schema :AuthResponse do
-        allOf do
-          schema do
-            key :required, %i[email token]
-            property :email do
-              key :email, :string
-            end
-            property :token do
-              key :type, :string
+              key :'$ref', :ErrorSchema
             end
           end
         end
