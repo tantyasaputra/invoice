@@ -4,7 +4,9 @@ require 'rails_helper'
 
 RSpec.describe AuthenticationsController, type: :controller do
   describe 'POST #login' do
-    let(:user) { create(:user, email: 'user@example.com', password: 'correct_password', password_confirmation: 'correct_password') }
+    let(:user) do
+      create(:user, email: 'user@example.com', password: 'correct_password', password_confirmation: 'correct_password')
+    end
 
     context 'with valid credentials' do
       it 'returns a JWT token' do

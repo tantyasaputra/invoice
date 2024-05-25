@@ -12,7 +12,7 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   let(:user) { create(:user) }
-  let(:headers) { { 'Authorization' => "#{token}" } }
+  let(:headers) { { 'Authorization' => token.to_s } }
   let(:token) { JWT.encode({ user_id: user.id }, ENV.fetch('SECRET_KEY'), 'HS256') }
 
   describe '#authenticate_request!' do
@@ -32,7 +32,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'when the token is invalid' do
       let(:invalid_token) { 'invalid.token.here' }
       before do
-        request.headers.merge!({ 'Authorization' => "#{invalid_token}" })
+        request.headers.merge!({ 'Authorization' => invalid_token.to_s })
         get :index
       end
 
@@ -74,7 +74,10 @@ RSpec.describe ApplicationController, type: :controller do
       end
 
       it 'raises an authentication error' do
-        expect { controller.send(:authorization_header) }.to raise_error(HandledError::AuthenticationError, 'missing authorization header')
+        expect do
+          controller.send(:authorization_header)
+        end.to raise_error(HandledError::AuthenticationError,
+                           'missing authorization header')
       end
     end
   end

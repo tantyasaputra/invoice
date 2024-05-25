@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   resources :swaggers, only: [:index]
-  resources :items, only: %i[index create destroy show]
+  resources :items, only: %i[index create update destroy show]
   resources :invoices do
     member do
       post 'publish'

@@ -12,7 +12,7 @@ module ExceptionHandler
       render json: { error: e.message }, status: 400
     end
 
-    rescue_from JWT::DecodeError do |e|
+    rescue_from JWT::DecodeError do |_e|
       render json: { error: 'invalid token!' }, status: 401
     end
   end
