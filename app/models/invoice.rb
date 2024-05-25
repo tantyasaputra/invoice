@@ -6,7 +6,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :items, through: :invoice_items
 
-  accepts_nested_attributes_for :invoice_items
+  accepts_nested_attributes_for :invoice_items, allow_destroy: true
 
   validates :user_id, :invoice_number, :due_date, presence: true
   validates :invoice_number, uniqueness: true
@@ -30,6 +30,12 @@ class Invoice < ApplicationRecord
 
   def self.valid_states
     aasm.states.map(&:name)
+  end
+
+  def update_total_amount
+    reload
+    calculate_total_amount
+    update(total_amount:)
   end
 
   private
