@@ -2,7 +2,7 @@
 
 class InvoicesController < ApplicationController
   include Swagger::InvoiceApi
-  before_action :authenticate_request!
+  # before_action :authenticate_request!
   before_action :set_invoice, only: %i[publish]
 
   # POST /invoices
@@ -15,15 +15,36 @@ class InvoicesController < ApplicationController
     end
   end
 
+  # POST /invoices/:id/publish
   def publish
+    unless @invoice.may_publish?
+      raise HandledError::InvalidParamsError,
+            "invalid state, cannot publish invoice with state #{@invoice.aasm_state}!"
+    end
+
     response = Xendit::Requests::CreateInvoice.new(@invoice).fire!
-    if response.success? && @invoice.may_publish?
-      invoice_url = response.parsed_body[:invoice_url]
-      @invoice.publish!(invoice_url)
+    if response.success?
+      @invoice.publish!(response.parsed_body[:invoice_url])
       render json: @invoice, status: :ok
     else
-      render json: { error: 'unable to publish invoice!', error_details: response.parsed_body }, status: :unprocessable_entity
+      render json: { error: 'unable to publish invoice!', error_details: response.parsed_body },
+             status: :unprocessable_entity
     end
+  end
+
+  # GET /invoices
+  def index
+    if params[:state].present?
+      unless Invoice.valid_states.include? params[:state].to_sym
+        raise HandledError::InvalidParamsError,
+              'invalid status!'
+      end
+
+      @invoice = Invoice.where(aasm_state: params[:state])
+    else
+      @invoice = Invoice.all
+    end
+    render json: @invoice, status: :ok
   end
 
   private
@@ -37,5 +58,10 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'invoice not found' }, status: :not_found
+  end
+
+  def validate_params!
+    return unless params[:state].present?
+    raise HandledError::InvalidParamsError, 'invalid status!' unless Invoice.valid_states.include? params[:state]
   end
 end

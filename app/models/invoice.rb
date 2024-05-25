@@ -28,6 +28,10 @@ class Invoice < ApplicationRecord
     end
   end
 
+  def self.valid_states
+    aasm.states.map(&:name)
+  end
+
   private
 
   def calculate_total_amount
