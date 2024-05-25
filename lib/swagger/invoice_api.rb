@@ -112,6 +112,7 @@ module Swagger
       # Define the /invoices/{id}/publish endpoint
       swagger_path '/invoices/{id}/publish' do
         operation :post do
+          key :summary, 'Publish an Invoice'
           key :description, 'Publish an invoice'
           key :operationId, 'publishInvoice'
           key :tags, ['Invoice']
@@ -135,6 +136,36 @@ module Swagger
             key :description, 'error'
             schema do
               key :'$ref', :ErrorSchema
+            end
+          end
+        end
+      end
+
+      # Define the /invoices/{id}
+      swagger_path '/invoices/{id}' do
+        operation :get do
+          key :summary, 'Retrieve a specific invoice'
+          key :description, 'Returns a single invoice by ID'
+          key :operationId, 'getInvoiceById'
+          key :tags, ['Invoice']
+          security do
+            key :api_key, []
+          end
+
+          parameter name: :id do
+            key :in, :path
+            key :description, 'ID of the invoice to retrieve'
+            key :required, true
+            key :type, :integer
+            key :format, :int64
+          end
+
+          response 200 do
+            key :description, 'Invoice details'
+            content 'application/json' do
+              schema do
+                key :'$ref', :Invoice
+              end
             end
           end
         end

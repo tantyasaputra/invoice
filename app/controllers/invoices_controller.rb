@@ -3,7 +3,7 @@
 class InvoicesController < ApplicationController
   include Swagger::InvoiceApi
   # before_action :authenticate_request!
-  before_action :set_invoice, only: %i[publish]
+  before_action :set_invoice, only: %i[publish show]
 
   # POST /invoices
   def create
@@ -44,6 +44,11 @@ class InvoicesController < ApplicationController
     else
       @invoice = Invoice.all
     end
+    render json: @invoice, status: :ok
+  end
+
+  # GET /invoices/:id
+  def show
     render json: @invoice, status: :ok
   end
 
