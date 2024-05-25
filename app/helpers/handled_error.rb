@@ -2,4 +2,5 @@
 
 module HandledError
   class AuthenticationError < StandardError; end
+  class InvalidParamsError < StandardError; end
 end
