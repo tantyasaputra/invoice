@@ -2,8 +2,8 @@
 
 class InvoicesController < ApplicationController
   include Swagger::InvoiceApi
-  # before_action :authenticate_request!
-  before_action :set_invoice, only: %i[publish show update]
+  before_action :authenticate_request!
+  before_action :set_invoice, only: %i[publish show update destroy]
 
   # POST /invoices
   def create
@@ -52,7 +52,7 @@ class InvoicesController < ApplicationController
     render json: @invoice, status: :ok, serializer: InvoiceDetailSerializer
   end
 
-  # GET /invoices/:id
+  # PUT /invoices/:id
   def update
     unless @invoice.created?
       raise HandledError::InvalidParamsError,
@@ -63,6 +63,12 @@ class InvoicesController < ApplicationController
     else
       render json: @invoice.errors, status: :unprocessable_entity
     end
+  end
+
+  # DELETE /invoices/:id
+  def destroy
+    @invoice.destroy!
+    render json: { message: 'successfully delete invoice!' }, status: :ok
   end
 
   private

@@ -167,6 +167,7 @@ module Swagger
             end
           end
         end
+
         operation :put do
           key :summary, 'Update an existing invoice'
           key :description, 'Updates an invoice by ID'
@@ -241,6 +242,41 @@ module Swagger
               property :total_amount do
                 key :type, :number
                 key :format, :double
+              end
+            end
+          end
+          response :default do
+            key :description, 'error'
+            schema do
+              key :'$ref', :ErrorSchema
+            end
+          end
+        end
+
+        operation :delete do
+          key :summary, 'Deletes an existing invoice'
+          key :description, 'Deletes an invoice by ID'
+          key :operationId, 'deleteInvoice'
+          key :tags, ['Invoice']
+          security do
+            key :api_key, []
+          end
+
+          parameter name: :id do
+            key :in, :path
+            key :description, 'ID of the invoice to delete'
+            key :required, true
+            key :type, :integer
+            key :format, :int64
+          end
+
+          response 200 do
+            key :description, 'Invoice object response'
+            schema do
+              key :required, [:message]
+
+              property :message do
+                key :type, :string
               end
             end
           end
