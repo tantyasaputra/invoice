@@ -169,6 +169,90 @@ module Swagger
             end
           end
         end
+        operation :put do
+          key :summary, 'Update an existing invoice'
+          key :description, 'Updates an invoice by ID'
+          key :operationId, 'updateInvoice'
+          key :tags, ['Invoice']
+          security do
+            key :api_key, []
+          end
+
+          parameter name: :id do
+            key :in, :path
+            key :description, 'ID of the invoice to update'
+            key :required, true
+            key :type, :integer
+            key :format, :int64
+          end
+          parameter do
+            key :name, :body
+            key :in, :body
+            key :description, 'Invoice object that needs to be sent in the params'
+            key :required, true
+            schema do
+              key :required, [:invoice_number, :due_date, :invoice_items_attributes]
+
+              property :invoice_number do
+                key :type, :string
+              end
+              property :due_date do
+                key :type, :string
+                key :format, :date
+              end
+              property :invoice_items_attributes do
+                key :type, :array
+                items do
+                  key :required, [:id, :item_id, :quantity, :_destroy]
+                  property :id do
+                    key :type, :integer
+                  end
+                  property :item_id do
+                    key :type, :integer
+                  end
+                  property :quantity do
+                    key :type, :integer
+                  end
+                  property :_destroy do
+                    key :type, :boolean
+                  end
+                end
+              end
+            end
+          end
+
+          response 200 do
+            key :description, 'Invoice object response'
+            schema do
+              key :required, [:id, :aasm_state, :invoice_number, :due_date, :total_amount ]
+
+              property :id do
+                key :type, :integer
+                key :format, :int64
+              end
+              property :aasm_state do
+                key :type, :string
+              end
+              property :invoice_number do
+                key :type, :string
+              end
+              property :due_date do
+                key :type, :string
+                key :format, :date
+              end
+              property :total_amount do
+                key :type, :number
+                key :format, :double
+              end
+            end
+          end
+          response :default do
+            key :description, 'error'
+            schema do
+              key :'$ref', :ErrorSchema
+            end
+          end
+        end
       end
 
       # Define the InvoiceItem schema
@@ -186,7 +270,7 @@ module Swagger
         end
       end
 
-      # Define the InvoiceItem schema
+      # Define the Invoice schema
       swagger_schema :Invoice do
         key :required, [:id, :invoice_number, :aasm_state, :due_date, :total_amount, :published_url]
 
