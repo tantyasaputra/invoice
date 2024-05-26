@@ -9,7 +9,7 @@ module ExceptionHandler
     end
 
     rescue_from HandledError::InvalidParamsError do |e|
-      render json: { error: e.message }, status: 400
+      render json: { error: e.message }, status: 422
     end
 
     rescue_from JWT::DecodeError do |_e|
